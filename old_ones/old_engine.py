@@ -3,6 +3,7 @@ os.environ["path"] = os.path.dirname(sys.executable) + ";" + os.environ["path"]
 
 import glob
 import tcod as libtcod
+from input_handlers import handle_keys
 
 DATA_FOLDER = "data"
 FONT_FILE = os.path.join(DATA_FOLDER, "dejavu.png")
@@ -15,6 +16,7 @@ def main():
     # player pos
     player_x = int(screen_width/2)
     player_y = int(screen_height/2)
+    
     # Key vars
     key = libtcod.Key()
     mouse = libtcod.Mouse()
@@ -30,9 +32,23 @@ def main():
         libtcod.console_flush()
 
         # key = libtcod.console_check_for_keypress()
+        
+        # action_handler_inputs
+        action = handle_keys(key)
+        move = action.get("move")
+        exit = action.get("exit")
+        fullscreen = action.get("fullscreen")
+        
+        if move:
+            dx, dy = move
+            player_x += dx
+            player_y += dy
 
-        if key.vk == libtcod.KEY_ESCAPE:
+        # if key.vk == libtcod.KEY_ESCAPE:
+        if exit:
             return True
+        if fullscreen:
+            libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
 
 if __name__ == '__main__':
