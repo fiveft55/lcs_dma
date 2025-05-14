@@ -17,7 +17,7 @@ def main() -> None:
     console = tcod.console.Console(80, 50)
     console.print(0, 0, "Hello World") # x, y, text
     
-    with tcod.context.new(tileset=font_tileset) as context:
+    with tcod.context.new(console = console , tileset=font_tileset) as context:
         while True: # main loop
             context.present(console)
             for event in tcod.event.wait():
